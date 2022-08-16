@@ -89,6 +89,9 @@ var endTime = Date.now()
 console.log("final")
 
 console.log(endTime-startTime)
+//var consulta = await fetch(url)
+//console.log (consulta[0])
+
 
 
 
