@@ -3,7 +3,7 @@ import fetch from "node-fetch"
 const llave = "B4M0OPihTC0U7OFZcfj6PTizGQlDsl21351VamA7"
 var urlapi = `https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-09&api_key=${llave}`
 
-async function ejemplo(url){
+async function ejemploMeteoritos(url){
     const respuestaapi =await fetch(url)
     const respuestajson = await respuestaapi.json()
 
@@ -34,4 +34,19 @@ async function ejemplo(url){
 }
 
 
-console.log(ejemplo(urlapi))
+//console.log(ejemploMeteoritos(urlapi))
+
+//FOTOS DE MARTE
+
+var urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=${llave}`
+
+async function fotosMarte(url){
+    var respuestaApi = await fetch(url)
+    var respuestaApiJson = await respuestaApi.json()
+    console.log(respuestaApiJson.photos[0].camera)
+    console.log(respuestaApiJson.photos[0].rover)
+}
+
+
+
+fotosMarte(urlMarte)
