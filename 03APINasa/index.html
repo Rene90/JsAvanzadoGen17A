@@ -20,15 +20,18 @@
               <label for="#">Selecciona tu rover</label>
               <form class="d-flex" role="search">
                 
-                <select class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <select class="form-control me-2" type="search" placeholder="Search" id="robot" aria-label="Search">
                     <option value="curiosity">Curiosity</option>
                     <option value="opportunity">Opportunity</option>
                     <option value="spirit">Spirit</option>
                 </select>
-                <button class="btn btn-outline-success" type="submit">Busqueda</button>
+                <button class="btn btn-outline-success" type="button" onclick="buscar()">Busqueda</button>
               </form>
             </div>
           </nav>
+          <div class="row mt-4" id="contenedorCartas">
+            
+          </div>
 
     </div>
     

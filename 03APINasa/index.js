@@ -1,5 +1,5 @@
 console.log("API de la NASA")
-import fetch from "node-fetch"
+//import fetch from "node-fetch"
 const llave = "B4M0OPihTC0U7OFZcfj6PTizGQlDsl21351VamA7"
 var urlapi = `https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-09&api_key=${llave}`
 
@@ -38,15 +38,37 @@ async function ejemploMeteoritos(url){
 
 //FOTOS DE MARTE
 
-var urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=${llave}`
 
-async function fotosMarte(url){
-    var respuestaApi = await fetch(url)
+
+async function fotosMarte(rover){
+    var urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&page=1&api_key=${llave}`
+    var respuestaApi = await fetch(urlMarte)
     var respuestaApiJson = await respuestaApi.json()
-    console.log(respuestaApiJson.photos[0].camera)
-    console.log(respuestaApiJson.photos[0].rover)
+    var listaFotos =respuestaApiJson.photos
+    var contenedor = document.getElementById("contenedorCartas")
+    contenedor.innerHTML = ""
+    listaFotos.forEach((elemento,indice,arreglo)=>{
+        contenedor.innerHTML += `<div class="card mb-2 col-sm-12 col-md-6 col-lg-4" style="width: 18rem;">
+        <img src=${elemento.img_src} class="card-img-top" style="height: 100%; alt=${elemento.id}>
+        <div class="card-body">
+          <h5 class="card-title">${elemento.camera.full_name}</h5>
+          <p class="card-text">${elemento.earth_date}</p>
+          
+        </div>
+            </div> 
+        `
+
+    })
+    //console.log(respuestaApiJson.photos[0].camera)
+    //console.log(respuestaApiJson.photos[0].rover)
+}
+
+function buscar(){
+    var selectrover =document.getElementById("robot")
+    var maquina =selectrover.value
+    fotosMarte(maquina)
 }
 
 
 
-fotosMarte(urlMarte)
+//fotosMarte(urlMarte)
