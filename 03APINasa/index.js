@@ -37,14 +37,23 @@ async function ejemploMeteoritos(url){
 //console.log(ejemploMeteoritos(urlapi))
 
 //FOTOS DE MARTE
-
-
-
-async function fotosMarte(rover){
-    var urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&page=1&api_key=${llave}`
+var rover = "curiosity"
+var contadorpag =1
+var urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&page=${contadorpag}&api_key=${llave}`
+async function fotosMarte(contadorp){
+    urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&page=${contadorp}&api_key=${llave}`
+    console.log(urlMarte)
     var respuestaApi = await fetch(urlMarte)
     var respuestaApiJson = await respuestaApi.json()
     var listaFotos =respuestaApiJson.photos
+    var botonsiguiente = document.getElementById("pagsig")
+    console.log(listaFotos.length)
+    if (listaFotos.length>=25 ){
+        //contadorpag++
+        
+        console.log("Removiendo clase")
+        botonsiguiente.classList.remove("escondido")
+    }
     var contenedor = document.getElementById("contenedorCartas")
     contenedor.innerHTML = ""
     listaFotos.forEach((elemento,indice,arreglo)=>{
@@ -62,11 +71,16 @@ async function fotosMarte(rover){
     //console.log(respuestaApiJson.photos[0].camera)
     //console.log(respuestaApiJson.photos[0].rover)
 }
-
+async function siguientepag(){
+    var selectrover =document.getElementById("robot")
+    contadorpag = contadorpag +1
+    rover  =selectrover.value
+    fotosMarte(contadorpag)
+}
 function buscar(){
     var selectrover =document.getElementById("robot")
-    var maquina =selectrover.value
-    fotosMarte(maquina)
+    rover  =selectrover.value
+    fotosMarte(contadorpag)
 }
 
 
