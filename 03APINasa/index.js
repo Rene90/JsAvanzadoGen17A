@@ -4,6 +4,7 @@ const llave = "B4M0OPihTC0U7OFZcfj6PTizGQlDsl21351VamA7"
 var urlapi = `https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-09&api_key=${llave}`
 
 async function ejemploMeteoritos(url){
+	try{
     const respuestaapi =await fetch(url)
     const respuestajson = await respuestaapi.json()
 
@@ -31,6 +32,8 @@ async function ejemploMeteoritos(url){
 
 
     })
+}catch(error){console.log(error)}
+
 }
 
 
