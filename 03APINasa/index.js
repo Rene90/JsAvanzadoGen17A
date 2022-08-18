@@ -37,24 +37,42 @@ async function ejemploMeteoritos(url){
 //console.log(ejemploMeteoritos(urlapi))
 
 //FOTOS DE MARTE
+//Variables globales 
 var rover = "curiosity"
 var contadorpag =1
 var urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&page=${contadorpag}&api_key=${llave}`
 async function fotosMarte(contadorp){
+    //Actualizo urlMarte con el contadorp para paginacion
     urlMarte = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&page=${contadorp}&api_key=${llave}`
-    console.log(urlMarte)
+    //Hacemos la consulta con fetch a la urlMarte y transformamos respuesta a Json
     var respuestaApi = await fetch(urlMarte)
     var respuestaApiJson = await respuestaApi.json()
+    //Accedo a llave photos que contiene la lista de fotos y guardo en variable listaFotos
     var listaFotos =respuestaApiJson.photos
+    //LOGICA PARA ACTIVAR BOTON DE "Siguiente" en el HTML
+    //Selecciono boton Siguiente por id "pagsisg" (html)
     var botonsiguiente = document.getElementById("pagsig")
-    console.log(listaFotos.length)
+    //Selecciono boton Anterior por id 
+    var botonanterior = document.getElementById("pagant")
+    //Condicion para saber si estamos en la pagina >=2
+    if(contadorp>=2){
+        botonanterior.classList.remove("escondido")
+    }else{
+        botonanterior.classList.add("escondido")
+
+    }
+    //Condicion para ver si lista fotos tiene 25 o mas fotos
     if (listaFotos.length>=25 ){
         //contadorpag++
         
-        console.log("Removiendo clase")
+        // En caso de que tenga >= 25 remueve la clase escondido que tiene display none y el boton aparece
         botonsiguiente.classList.remove("escondido")
     }
+
+    //LOGICA PARA RENDERIZAR TARJETA DE IMAGEN DE MARTE
+    //Seleccionamos div que rellenaremos con tarjetas
     var contenedor = document.getElementById("contenedorCartas")
+    //metemos html por cada tarjeta a div contenedor
     contenedor.innerHTML = ""
     listaFotos.forEach((elemento,indice,arreglo)=>{
         contenedor.innerHTML += `<div class="card mb-2 col-sm-12 col-md-6 col-lg-4" style="width: 18rem;">
@@ -71,13 +89,25 @@ async function fotosMarte(contadorp){
     //console.log(respuestaApiJson.photos[0].camera)
     //console.log(respuestaApiJson.photos[0].rover)
 }
+
+//funcion que se ejecuta cuando damos click al boton siguiente
 async function siguientepag(){
     var selectrover =document.getElementById("robot")
+    //incrementamos en uno el contador para hacer FETCH a la siguiente pagina
     contadorpag = contadorpag +1
     rover  =selectrover.value
+    //invocamos funcion fotosMarte que hace fetch y renderiza tarjetas
     fotosMarte(contadorpag)
 }
-function buscar(){
+async function anterior(){
+    var selectrover =document.getElementById("robot")
+    rover  =selectrover.value
+    contadorpag = contadorpag -1
+    //invocamos funcion fotosMarte que hace fetch y renderiza tarjetas
+    fotosMarte(contadorpag)
+}
+//funcion que se ejecuta cuando damos click en el boton buscar
+var buscar = async ()=>{
     var selectrover =document.getElementById("robot")
     rover  =selectrover.value
     fotosMarte(contadorpag)
