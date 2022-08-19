@@ -1,4 +1,5 @@
 console.log("Ejemplo de try")
+import fetch from "node-fetch"
 // EJEMPLO DE TRY y CATCH
 function division(a,b){
 	try{
@@ -35,10 +36,10 @@ const promesaEjemplo= ()=>{
 }
 
 //FORMA 1 DE EJECUTAR PROMESA (CON .THEN Y .CATCH)
-promesaEjemplo().then(numero=>{
-	console.log(numero)
+//promesaEjemplo().then(numero=>{
+//	console.log(numero)
 
-}).catch(error=>console.log(error+ "este es el error de mi primera promesa"))
+//}).catch(error=>console.log(error+ "este es el error de mi primera promesa"))
 
 //FORMA 2 DE EJECUTAR UNA PROMESA (DENTRO DE UN TRY Y CATCH)
 const funcionAsync = async ()=>{
@@ -55,15 +56,38 @@ const funcionAsync = async ()=>{
 
 }
 
-funcionAsync()
+//funcionAsync()
+//Direccion para buscar libros por autor
 
 
+const urlAuthor = "http://openlibrary.org/search.json?author=asimov"
 
+async function queryAuthor(urlA){
+      var urlLibro = "https://openlibrary.org/api/books?bibkeys=ISBN:"
+      const responseA = await fetch(urlA)
+      const responseAJson = await responseA.json()
+      const arreglo = responseAJson.docs
+      const codigos = arreglo[0].isbn
+      var arregloPromesas = []
+      var arregloLibros = []
+      codigos.forEach(async (elementos)=>{
+            let promesa  = fetch(urlLibro+elementos).then((r)=>r)
+            arregloPromesas.push(promesa)             
+            
+      })
+      
+      return new Promise((resolve)=>{
+        Promise.all(arregloPromesas).then((proms)=>{
+            proms.forEach((p)=>arregloLibros.push(p))
+        }).then(()=>resolve(arregloLibros))
+      })
+      //arreglo.forEach(e=>{
+      //        console.log(e.title)
 
-
-
-
-
+      // })
+}
+var respuestaQueryLibros =await queryAuthor(urlAuthor)
+console.log(respuestaQueryLibros)
 
 
 
