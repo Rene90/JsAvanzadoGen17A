@@ -52,6 +52,28 @@ const createAuthor = (jsonData) => {
 
 }
 
+//? PARTIAL UPDATE DE UN AUTOR
+const patchAuthor = (id,jsonData) => {
+    const objConfig = {
+        url: URI+id+'/',
+        form: jsonData //ESTA ES MI DATA QUE DESEO MODIFICAR EN MI JSON 
+    }
+
+    request.patch(objConfig, (error,response,body)=> {
+        if(response.statusCode === 200){
+            const author = JSON.parse(body)
+            console.log("SE ACTUALIZO AL AUTOR EXITOSAMENTE: " + "\n", author)
+        }else {
+            console.log(response.statusCode , response.statusMessage)
+        }
+    })
+}
+
+
+
+
+
+
 
 
 
@@ -59,4 +81,5 @@ const createAuthor = (jsonData) => {
     listAuthors,
     getAuthor,
     createAuthor,
+    patchAuthor,
    } 
