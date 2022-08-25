@@ -69,17 +69,21 @@ const patchAuthor = (id,jsonData) => {
     })
 }
 
-
-
-
-
-
-
-
+//? ELIMINAR UN AUTOR 
+    const deleteAuthor= (id) => {
+        request.delete(URI+id+'/',(error,response,body)=>{
+            if(response.statusCode === 204) {
+                console.log("EL AUTOR FUE ELIMINADO EXITOSAMENTE")
+            }else{
+                console.log(response.statusCode,response.statusMessage)
+            }
+        })
+    }
 
    module.exports = {
     listAuthors,
     getAuthor,
     createAuthor,
     patchAuthor,
+    deleteAuthor
    } 
