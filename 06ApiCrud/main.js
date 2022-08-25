@@ -4,4 +4,7 @@
 const goodReadsCrud = require('./crudAuthors')
 
 //*LISTA DE TODOS LOS AUTORES
-goodReadsCrud.listAuthors()
+// goodReadsCrud.listAuthors()
+
+//*LISTA UN AUTOR POR SU ID
+goodReadsCrud.getAuthor(14639)
