@@ -34,9 +34,29 @@ const URI = 'https://goodreads-devf-aaron.herokuapp.com/api/v1/authors/'
    }
 
 
+//? CREAR UN AUTOR - USAMOS UN OBJETO CON IFORMACIÓN A CREAR Y PARA ELLO NECESITAMOS USAR UN FORMATO JSON
+const createAuthor = (jsonData) => {
+    const objConfig = {
+        url: URI, //APARTADO PARA CREAR EL AUTOR /api/v1/authors/
+        form: jsonData // ESTA ES MI DATA EN FORMATO JSON
+    }
+    //* HACEMOS LA PETICIÓN
+    request.post( objConfig, (error,response,body)=>{
+        if(response.statusCode === 201){
+            const createAuthor = JSON.parse(body)
+            console.log("AUTOR CREADO EXITOSAMENTE: " + "\n", createAuthor)
+        }else {
+            console.log(response.statusCode , response.statusMessage)
+        }
+    })
+
+}
+
+
 
 
    module.exports = {
     listAuthors,
-    getAuthor
+    getAuthor,
+    createAuthor,
    } 
